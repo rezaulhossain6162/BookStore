@@ -1,13 +1,12 @@
 package com.login.reg_login;
 
+import android.graphics.Color;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,14 +16,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class Search extends AppCompatActivity {
-    String[] item;
+public class Search extends AppCompatActivity implements SearchView.OnQueryTextListener {
+
     ListView listView;
     ArrayList<Person> arrayLists;
-   // ArrayList<Person> arrayLists=new ArrayList<>();
-    ArrayAdapter<Person> adapter;
+    MyCustomAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +41,8 @@ public class Search extends AppCompatActivity {
                     String address = person.getAddress();
                     String phone = person.getPhone();
                     String key = person.getKey();
-                    arrayLists.add(new Person(name,address,phone,key));
+                    String uid = person.getUid();
+                    arrayLists.add(new Person(name,address,phone,key,uid));
                     //arrayLists=new ArrayList<>(Arrays.asList(arrayLists));
                     adapter= new MyCustomAdapter(Search.this,R.layout.custom,arrayLists);
                     listView.setAdapter(adapter);
@@ -60,24 +58,22 @@ public class Search extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.menu_search,menu);
+        getMenuInflater().inflate(R.menu.menu_search,menu);
         MenuItem item=menu.findItem(R.id.menuSearch);
         SearchView searchView=(SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return true;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+        searchView.setOnQueryTextListener(this);
+        return true;
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return false;
+    }
 }

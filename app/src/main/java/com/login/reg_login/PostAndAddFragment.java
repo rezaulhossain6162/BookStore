@@ -1,7 +1,4 @@
 package com.login.reg_login;
-
-
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,34 +6,27 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.sql.Connection;
-import java.util.ArrayList;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PostAndAddFragment extends Fragment implements View.OnClickListener {
 
 
     public PostAndAddFragment() {
-        // Required empty public constructor
+
     }
 
-    //DatabaseReference databaseReference;
     EditText etname,etphone,etaddress;
     Button btnsubmit,btncancel;
     TextView tvdatainfirebase;
-
+    FirebaseAuth firebaseAuth;
+    FirebaseUser currentUser;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,6 +40,7 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
         btnsubmit.setOnClickListener(this);
         btncancel.setOnClickListener(this);
         tvdatainfirebase=v.findViewById(R.id.tvdatainfirebase);
+
         return v;
     }
 
@@ -67,7 +58,10 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
                 }else {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Add_Information");
                     String KEY = databaseReference.push().getKey();
-                    Person person = new Person(name, address, phone, KEY);
+                    firebaseAuth = FirebaseAuth.getInstance();
+                    currentUser = firebaseAuth.getCurrentUser();
+                    String uid = currentUser.getUid();
+                    Person person = new Person(name, address, phone, KEY,uid);
                     databaseReference.push().setValue(person);
                     String data="Data Inserted";
                     tvdatainfirebase.setText(data);

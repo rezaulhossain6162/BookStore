@@ -111,11 +111,11 @@
         android:layout_height="36dp"
         android:layout_marginTop="29dp"
         app:layout_constraintTop_toBottomOf="@+id/tvAddressDisplay"
-        app:layout_constraintLeft_toRightOf="@+id/textView2"
+        app:layout_constraintLeft_toRightOf="@+id/tvOnFavourate"
         android:layout_marginLeft="18dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvOnFavourate"
         android:layout_width="98dp"
         android:layout_height="29dp"
         android:text="On Favourate: "

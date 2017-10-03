@@ -12,7 +12,7 @@ import android.view.WindowManager;
 
 
 public class Spalash extends AppCompatActivity {
-    private static int spalash_time=3000;
+    private static int spalash_time=1500;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

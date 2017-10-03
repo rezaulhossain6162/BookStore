@@ -5,8 +5,10 @@ package com.login.reg_login;
  */
 
 public class Person {
-    String name,address,phone,key;
-
+    String name,address,phone,key,uid;
+    public String getUid(){
+     return uid;
+}
     public String getName() {
         return name;
     }
@@ -22,8 +24,8 @@ public class Person {
         return key;
     }
 
-    public Person(String name, String address, String phone,String key) {
-
+    public Person(String name, String address, String phone,String key,String uid) {
+        this.uid=uid;
         this.name = name;
         this.address = address;
         this.phone = phone;

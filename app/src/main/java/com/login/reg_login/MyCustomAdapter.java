@@ -21,7 +21,8 @@ import java.util.ArrayList;
 public class MyCustomAdapter extends ArrayAdapter<Person> implements View.OnClickListener {
     private Context mcontext;
     private ArrayList<Person> data;
-    public MyCustomAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<Person> object) {
+
+    public MyCustomAdapter(Context context, @LayoutRes int resource, ArrayList<Person> object) {
         super(context, resource, object);
         this.mcontext=context;
         this.data=object;
@@ -42,25 +43,33 @@ public class MyCustomAdapter extends ArrayAdapter<Person> implements View.OnClic
         TextView tvaddress=(TextView) mconvertview.findViewById(R.id.tvAddress);
         Button btnphone=mconvertview.findViewById(R.id.btnCall);
         Button btnemail=mconvertview.findViewById(R.id.btnMail);
+        Button btnDownload = mconvertview.findViewById(R.id.btnDownload);
+        Button btnFovourate=mconvertview.findViewById(R.id.btnFavourate);
+        TextView tvOnFavourate=mconvertview.findViewById(R.id.tvOnFavourate);
         ImageView ivbook=mconvertview.findViewById(R.id.ivbook);
         tvdisplayname.setText(""+person.getName());
         tvdsplayad.setText(""+person.getAddress());
         ivbook.setImageResource(R.drawable.book_image);
         btnphone.setOnClickListener(this);
         btnemail.setOnClickListener(this);
+        btnDownload.setOnClickListener(this);
+        btnFovourate.setOnClickListener(this);
         return mconvertview;
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnCall:
-
                 break;
             case R.id.btnMail:
-
+                break;
+            case R.id.btnDownload:
+                break;
+            case R.id.btnFavourate:
                 break;
         }
-
     }
 }
+
+

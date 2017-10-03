@@ -1,6 +1,4 @@
 package com.login.reg_login;
-
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -35,7 +33,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_home, container, false);
           lvdata=v.findViewById(R.id.lvdata);
-        arrayList=new ArrayList<>();
+          arrayList=new ArrayList<>();
 
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Add_Information");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -47,7 +45,8 @@ public class HomeFragment extends Fragment {
                     String address = person.getAddress();
                     String phone = person.getPhone();
                     String key = person.getKey();
-                    arrayList.add(new Person(name,address,phone,key));
+                    String uid = person.getUid();
+                    arrayList.add(new Person(name,address,phone,key,uid));
                     adapter=new MyCustomAdapter(getContext(),R.layout.custom,arrayList);
                     lvdata.setAdapter(adapter);
                 }
