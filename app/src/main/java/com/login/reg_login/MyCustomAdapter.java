@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 public class MyCustomAdapter extends ArrayAdapter<Person> implements View.OnClickListener {
     private Context mcontext;
     private ArrayList<Person> data;
-
+    CheckBox checkBox;
     public MyCustomAdapter(Context context, @LayoutRes int resource, ArrayList<Person> object) {
         super(context, resource, object);
         this.mcontext=context;
@@ -41,32 +43,29 @@ public class MyCustomAdapter extends ArrayAdapter<Person> implements View.OnClic
         TextView tvdsplayad=mconvertview.findViewById(R.id.tvAddressDisplay);
         TextView tvname=(TextView) mconvertview.findViewById(R.id.tvName);
         TextView tvaddress=(TextView) mconvertview.findViewById(R.id.tvAddress);
-        Button btnphone=mconvertview.findViewById(R.id.btnCall);
         Button btnemail=mconvertview.findViewById(R.id.btnMail);
         Button btnDownload = mconvertview.findViewById(R.id.btnDownload);
-        Button btnFovourate=mconvertview.findViewById(R.id.btnFavourate);
+         checkBox=(CheckBox)mconvertview.findViewById(R.id.checkBox);
         TextView tvOnFavourate=mconvertview.findViewById(R.id.tvOnFavourate);
         ImageView ivbook=mconvertview.findViewById(R.id.ivbook);
         tvdisplayname.setText(""+person.getName());
         tvdsplayad.setText(""+person.getAddress());
         ivbook.setImageResource(R.drawable.book_image);
-        btnphone.setOnClickListener(this);
         btnemail.setOnClickListener(this);
         btnDownload.setOnClickListener(this);
-        btnFovourate.setOnClickListener(this);
+        checkBox.setOnClickListener(this);
         return mconvertview;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnCall:
-                break;
             case R.id.btnMail:
                 break;
             case R.id.btnDownload:
                 break;
-            case R.id.btnFavourate:
+            case R.id.checkBox:
+
                 break;
         }
     }

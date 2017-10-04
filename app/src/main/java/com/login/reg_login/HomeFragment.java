@@ -1,6 +1,7 @@
 package com.login.reg_login;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v= inflater.inflate(R.layout.fragment_home, container, false);
           lvdata=v.findViewById(R.id.lvdata);
           arrayList=new ArrayList<>();
@@ -39,14 +40,10 @@ public class HomeFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    Person person=snapshot.getValue(Person.class);
-                    String name = person.getName();
-                    String address = person.getAddress();
-                    String phone = person.getPhone();
-                    String key = person.getKey();
-                    String uid = person.getUid();
-                    arrayList.add(new Person(name,address,phone,key,uid));
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child:children){
+                    Person person=child.getValue(Person.class);
+                    arrayList.add(person);
                     adapter=new MyCustomAdapter(getContext(),R.layout.custom,arrayList);
                     lvdata.setAdapter(adapter);
                 }

@@ -37,12 +37,7 @@ public class Search extends AppCompatActivity implements SearchView.OnQueryTextL
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
                     Person person=snapshot.getValue(Person.class);
-                    String name = person.getName();
-                    String address = person.getAddress();
-                    String phone = person.getPhone();
-                    String key = person.getKey();
-                    String uid = person.getUid();
-                    arrayLists.add(new Person(name,address,phone,key,uid));
+                    arrayLists.add(person);
                     //arrayLists=new ArrayList<>(Arrays.asList(arrayLists));
                     adapter= new MyCustomAdapter(Search.this,R.layout.custom,arrayLists);
                     listView.setAdapter(adapter);

@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ public class MyPostFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     ListView lvitem;
-    String key;
 
     public MyPostFragment() {
         // Required empty public constructor
@@ -48,28 +48,21 @@ public class MyPostFragment extends Fragment {
          FirebaseUser currentUser = firebaseAuth.getCurrentUser();
          String uid = currentUser.getUid();
          firebaseDatabase.getInstance();
-
-         databaseReference = FirebaseDatabase.getInstance().getReference().child("Add_Information");
-         key = databaseReference.getKey();
-         databaseReference.addValueEventListener(new ValueEventListener() {
+         databaseReference = FirebaseDatabase.getInstance().getReference();
+        Query query = databaseReference.child("Add_Information").orderByChild("uid").equalTo(uid);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    Person person=snapshot.getValue(Person.class);
-                    String name = person.getName();
-                    String address = person.getAddress();
-                    String phone = person.getPhone();
-                    String key = person.getKey();
-                    String uid = person.getUid();
-                    arrayList1.add(new Person(name,address,phone,key,uid));
-                    adapter=new MyCustomAdapter(getContext(),R.layout.custom,arrayList1);
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child : children) {
+                    Person person = child.getValue(Person.class);
+                    arrayList1.add(person);
+                    adapter = new MyCustomAdapter(getContext(), R.layout.custom, arrayList1);
                     lvitem.setAdapter(adapter);
                 }
             }
 
-            @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(), "unsuccess", Toast.LENGTH_SHORT).show();
 
             }
         });

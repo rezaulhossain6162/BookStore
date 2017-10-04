@@ -118,6 +118,7 @@ private FrameLayout frameLayout;
                FragmentManager fm=getSupportFragmentManager();
                FragmentTransaction ft=fm.beginTransaction();
                ft.replace(R.id.loadfagment,fragment);
+               setTitle("Home");
                ft.commit();
                break;
        }
@@ -136,6 +137,7 @@ private FrameLayout frameLayout;
             FragmentManager fm=getSupportFragmentManager();
             FragmentTransaction ft=fm.beginTransaction();
             ft.replace(R.id.loadfagment,fragment);
+            setTitle("Home");
             ft.commit();
 
         } else if (id == R.id.search) {
