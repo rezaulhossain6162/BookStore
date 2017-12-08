@@ -5,32 +5,47 @@ package com.login.reg_login;
  */
 
 public class Person {
-    String name,address,phone,key,uid;
-    public String getUid(){
-     return uid;
-}
+    String name,bookName,key,uid;
+
+    public Person(String name, String bookName, String key, String uid) {
+        this.name = name;
+        this.bookName = bookName;
+        this.key = key;
+        this.uid = uid;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getBookName() {
+        return bookName;
     }
-    public String getKey(){
+
+    public void setBookName(String bookName) {
+          this.bookName=bookName;
+    }
+
+    public String getKey() {
         return key;
     }
 
-    public Person(String name, String address, String phone,String key,String uid) {
-        this.uid=uid;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.key=key;
+    public void setKey(String key) {
+        this.key = key;
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public Person(){
 
     }

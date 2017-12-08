@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,14 +22,16 @@ import java.util.ArrayList;
  * Created by jack on 9/24/2017.
  */
 
-public class MyCustomAdapter extends ArrayAdapter<Person> implements View.OnClickListener {
+public class MyCustomAdapter extends BaseAdapter implements Filterable {
     private Context mcontext;
-    private ArrayList<Person> data;
-    CheckBox checkBox;
+    private ArrayList<Person> dataOrginal,dataTemp;
+
+    customfilter cs;
     public MyCustomAdapter(Context context, @LayoutRes int resource, ArrayList<Person> object) {
-        super(context, resource, object);
         this.mcontext=context;
-        this.data=object;
+        this.dataOrginal=object;
+        this.dataTemp=object;
+
     }
 
     @NonNull
@@ -35,38 +39,75 @@ public class MyCustomAdapter extends ArrayAdapter<Person> implements View.OnClic
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View mconvertview=convertView;
         if (mconvertview==null){
-            LayoutInflater from = LayoutInflater.from(getContext());
-            mconvertview = from.inflate(R.layout.custom, null);
+           LayoutInflater inflater= (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mconvertview = inflater.inflate(R.layout.custom, null);
         }
-        Person person = data.get(position);
-        TextView tvdisplayname=mconvertview.findViewById(R.id.tvNameDisplay);
-        TextView tvdsplayad=mconvertview.findViewById(R.id.tvAddressDisplay);
-        TextView tvname=(TextView) mconvertview.findViewById(R.id.tvName);
-        TextView tvaddress=(TextView) mconvertview.findViewById(R.id.tvAddress);
-        Button btnemail=mconvertview.findViewById(R.id.btnMail);
-        Button btnDownload = mconvertview.findViewById(R.id.btnDownload);
-         checkBox=(CheckBox)mconvertview.findViewById(R.id.checkBox);
-        TextView tvOnFavourate=mconvertview.findViewById(R.id.tvOnFavourate);
-        ImageView ivbook=mconvertview.findViewById(R.id.ivbook);
+        Person person = dataOrginal.get(position);
+        TextView tvdisplayname=mconvertview.findViewById(R.id.tvAddressDisplay);
+        TextView tvdsplayad=mconvertview.findViewById(R.id.tvNameDisplay);
+
+
+        //ImageView ivbook=mconvertview.findViewById(R.id.ivbook);
         tvdisplayname.setText(""+person.getName());
-        tvdsplayad.setText(""+person.getAddress());
-        ivbook.setImageResource(R.drawable.book_image);
-        btnemail.setOnClickListener(this);
-        btnDownload.setOnClickListener(this);
-        checkBox.setOnClickListener(this);
+        tvdsplayad.setText(""+person.getBookName());
+       // ivbook.setImageResource(R.drawable.book_image);
+
         return mconvertview;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnMail:
-                break;
-            case R.id.btnDownload:
-                break;
-            case R.id.checkBox:
 
-                break;
+    @Nullable
+    @Override
+    public Person getItem(int position) {
+        return dataOrginal.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return dataOrginal.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (cs==null){
+            cs=new customfilter();
+        }
+        return cs;
+    }
+    class customfilter extends Filter{
+
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            FilterResults results=new FilterResults();
+            if (charSequence!=null && charSequence.length()>0) {
+                charSequence = charSequence.toString().toUpperCase();
+                ArrayList<Person> datachange = new ArrayList<>();
+                for (int i = 0; i < dataTemp.size(); i++) {
+                    if (dataTemp.get(i).getBookName().toUpperCase().contains(charSequence)) {
+                        Person person = new Person(dataTemp.get(i).getName(), dataTemp.get(i).getBookName(), dataTemp.get(i).getKey(), dataTemp.get(i).getUid());
+                        datachange.add(person);
+
+                    }
+                }results.count=datachange.size();
+                results.values=datachange;
+
+            }else {
+                results.count=dataTemp.size();
+                results.values=dataTemp;
+            }
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+           dataOrginal=(ArrayList<Person>)filterResults.values;
+           notifyDataSetChanged();
         }
     }
 }

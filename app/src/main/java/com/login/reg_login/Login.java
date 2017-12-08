@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +31,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         firebaseAuth=FirebaseAuth.getInstance();
         ini();
+        userNowLoginCheck();
+
+    }
+
+    private void userNowLoginCheck() {
         authStateListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -39,7 +46,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }
             }
         };
-
     }
 
     @Override
@@ -70,29 +76,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnforlogin:
-                String email=etemailforlogin1.getText().toString().trim();
-                String password=etpasswordforlogin1.getText().toString().trim();
-
-                if (email.isEmpty()) {
-                    etemailforlogin1.setError("This field can not be blank");
-                    if (password.isEmpty()) {
-                        etpasswordforlogin1.setError("This field can not be blank");
-                    }
-                }else {
-                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Intent intent = new Intent(Login.this, Book_Finder.class);
-                                startActivity(intent);
-                            } else {
-                                String mes = task.getException().getMessage();
-                                incorrect.setText(mes);
-                            }
-                        }
-                    });
-                }
+             startLogin();
                 break;
             case R.id.btnsignup:
                 Intent intent=new Intent(Login.this,MainActivity.class);
@@ -100,6 +84,30 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
         }
 
+    }
+
+    private void startLogin() {
+        String email=etemailforlogin1.getText().toString().trim();
+        String password=etpasswordforlogin1.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)|| TextUtils.isEmpty(password)) {
+            etemailforlogin1.setError("Must be fill up");
+            etpasswordforlogin1.setError("Must be fill up");
+        }else {
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(Login.this, Book_Finder.class);
+                        startActivity(intent);
+                    } else {
+                        String mes = task.getException().getMessage();
+                        incorrect.setText(mes);
+                    }
+                }
+            });
+        }
     }
 
 }

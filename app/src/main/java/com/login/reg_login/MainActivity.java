@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,30 +49,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.btnreg:
-                String email = etemail.getText().toString();
-                String pass = etpassword.getText().toString();
-                if (email.isEmpty()) {
-                    etemail.setError("This field can not be blank");
-                        if (pass.isEmpty()) {
-                            etpassword.setError("This field can not be blank");
-                        }
-                }else {
-                    firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                Toast.makeText(MainActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                String bad=task.getException().getMessage();
-                                tvmessage.setText(bad);
-                            }
-                        }
-                    });
-                }
+                startRegistration();
                 break;
 
         }
 
     }
-}
+
+    private void startRegistration() {
+            String email = etemail.getText().toString();
+            String pass = etpassword.getText().toString();
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
+                etemail.setError("Must be fill up");
+                etpassword.setError("Must be fill up");
+            }else {
+                firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String bad = task.getException().getMessage();
+                            tvmessage.setText(bad);
+                        }
+                    }
+                });
+            }
+        }
+    }

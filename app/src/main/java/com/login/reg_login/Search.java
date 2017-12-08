@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Search extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class Search extends AppCompatActivity {
 
     ListView listView;
     ArrayList<Person> arrayLists;
@@ -56,19 +56,20 @@ public class Search extends AppCompatActivity implements SearchView.OnQueryTextL
         getMenuInflater().inflate(R.menu.menu_search,menu);
         MenuItem item=menu.findItem(R.id.menuSearch);
         SearchView searchView=(SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return true;
     }
 
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        adapter.getFilter().filter(newText);
-        return false;
-    }
 }

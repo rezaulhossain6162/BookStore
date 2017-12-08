@@ -18,10 +18,6 @@
             android:id="@+id/mypost"
             android:icon="@drawable/my_post"
             android:title="My Post" />
-        <item
-            android:id="@+id/favorites"
-            android:icon="@drawable/love"
-            android:title="My Favorites" />
     </group>
 
     <item android:title="Others">

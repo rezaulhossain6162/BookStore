@@ -22,7 +22,7 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
 
     }
 
-    EditText etname,etphone,etaddress;
+    EditText etname,etBookName;
     Button btnsubmit,btncancel;
     TextView tvdatainfirebase;
     FirebaseAuth firebaseAuth;
@@ -33,13 +33,11 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
 
          View v=inflater.inflate(R.layout.fragment_post_and_add, container, false);
         etname=v.findViewById(R.id.etName);
-        etaddress=v.findViewById(R.id.etAddress);
-        etphone=v.findViewById(R.id.etPhone);
+        etBookName=v.findViewById(R.id.etBookName);
         btnsubmit=v.findViewById(R.id.btnSubmit);
         btncancel=v.findViewById(R.id.btnCancel);
         btnsubmit.setOnClickListener(this);
         btncancel.setOnClickListener(this);
-        tvdatainfirebase=v.findViewById(R.id.tvdatainfirebase);
 
         return v;
     }
@@ -50,21 +48,21 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
         switch (view.getId()){
             case R.id.btnSubmit:
 
-                String address=etaddress.getText().toString();
+                String bookName = etBookName.getText().toString();
                 String name=etname.getText().toString();
-                String phone=etphone.getText().toString();
-                if (name.isEmpty()){
+                if (name.isEmpty()&& bookName.isEmpty()){
                     etname.setError("must be fill up");
+                    etBookName.setError("must be fill up");
                 }else {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Add_Information");
                     String KEY = databaseReference.push().getKey();
                     firebaseAuth = FirebaseAuth.getInstance();
                     currentUser = firebaseAuth.getCurrentUser();
                     String uid = currentUser.getUid();
-                    Person person = new Person(name, address, phone, KEY,uid);
+                    Person person = new Person(name, bookName,KEY,uid);
                     databaseReference.push().setValue(person);
                     String data="Data Inserted";
-                    tvdatainfirebase.setText(data);
+
                 }
                 break;
             case R.id.btnCancel:

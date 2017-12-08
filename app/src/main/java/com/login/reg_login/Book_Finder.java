@@ -1,6 +1,10 @@
 package com.login.reg_login;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,29 +38,19 @@ import java.util.ArrayList;
 
 public class Book_Finder extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-private FrameLayout frameLayout;
+    FrameLayout frameLayout;
     FirebaseAuth firebaseAuth;
-    ListView lvdatafindbook;
     ArrayList<Person> arrayList;
-    MyCustomAdapter adapter;
-    Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book__finder);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        firebaseAuth=FirebaseAuth.getInstance();
         ini();
-        arrayList=new ArrayList<>();
-        Fragment fragment=new HomeFragment();
-        FragmentManager fm=getSupportFragmentManager();
-        FragmentTransaction ft=fm.beginTransaction();
-        ft.replace(R.id.loadfagment,fragment);
-        ft.commit();
-
-
+        newtwork();
+        firebaseAuth=FirebaseAuth.getInstance();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -66,6 +61,31 @@ private FrameLayout frameLayout;
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void newtwork() {
+        ConnectivityManager cm= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo Ninfo = cm.getActiveNetworkInfo();
+        if (Ninfo != null && Ninfo.isConnected()){
+            arrayList=new ArrayList<>();
+            Fragment fragment=new HomeFragment();
+            FragmentManager fm=getSupportFragmentManager();
+            FragmentTransaction ft=fm.beginTransaction();
+            ft.replace(R.id.loadfagment,fragment);
+            ft.commit();
+        }else {
+            AlertDialog.Builder builder1=new AlertDialog.Builder(getApplicationContext());
+            builder1.setTitle("No Internet Connection");
+            builder1.setMessage("You need to open your mobile data or wifi");
+            builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+        }
+
+
+    }
 
 
     private void ini() {
@@ -161,15 +181,8 @@ private FrameLayout frameLayout;
             setTitle("My post");
             ft.commit();
 
-        } else if (id == R.id.favorites) {
-            fragment=new MyFavouritesFragment();
-            FragmentManager fm=getSupportFragmentManager();
-            FragmentTransaction ft=fm.beginTransaction();
-            ft.replace(R.id.loadfagment,fragment);
-            setTitle("My Favorites");
-            ft.commit();
-
-        } else if (id == R.id.aboutapplication) {
+        }
+        else if (id == R.id.aboutapplication) {
             Intent intent=new Intent(Book_Finder.this,About.class);
             startActivity(intent);
         }
