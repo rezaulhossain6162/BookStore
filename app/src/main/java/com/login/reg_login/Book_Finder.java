@@ -1,5 +1,6 @@
 package com.login.reg_login;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,9 +26,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,8 +43,6 @@ public class Book_Finder extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FrameLayout frameLayout;
     FirebaseAuth firebaseAuth;
-    ArrayList<Person> arrayList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,6 @@ public class Book_Finder extends AppCompatActivity
         setSupportActionBar(toolbar);
         ini();
         newtwork();
-        firebaseAuth=FirebaseAuth.getInstance();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -65,7 +65,6 @@ public class Book_Finder extends AppCompatActivity
         ConnectivityManager cm= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo Ninfo = cm.getActiveNetworkInfo();
         if (Ninfo != null && Ninfo.isConnected()){
-            arrayList=new ArrayList<>();
             Fragment fragment=new HomeFragment();
             FragmentManager fm=getSupportFragmentManager();
             FragmentTransaction ft=fm.beginTransaction();
@@ -89,8 +88,8 @@ public class Book_Finder extends AppCompatActivity
 
 
     private void ini() {
+        firebaseAuth=FirebaseAuth.getInstance();
         frameLayout= (FrameLayout) findViewById(R.id.loadfagment);
-
     }
 
     @Override
@@ -163,7 +162,6 @@ public class Book_Finder extends AppCompatActivity
         } else if (id == R.id.search) {
             Intent intent=new Intent(Book_Finder.this,Search.class);
             startActivity(intent);
-
         } else if (id == R.id.postandadd) {
             fragment=new PostAndAddFragment();
             FragmentManager fm=getSupportFragmentManager();
