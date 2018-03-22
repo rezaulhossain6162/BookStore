@@ -3,7 +3,7 @@
     package="com.login.reg_login">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Spalash"
+        <activity
+            android:name=".Spalash"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,10 +31,12 @@
             android:name=".Search"
             android:label="Search"
             android:parentActivityName=".Book_Finder" />
-        <activity android:name=".About"
+        <activity
+            android:name=".About"
             android:label="About"
-            android:parentActivityName=".Book_Finder"
-            ></activity>
+            android:parentActivityName=".Book_Finder" />
+        <activity android:name=".PdfView"></activity>
+        <activity android:name=".Download"></activity>
     </application>
 
 </manifest>

@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 public class MyPostFragment extends Fragment {
     ArrayList<Person> arrayList1;
-    MyCustomAdapter adapter;
+    CustomAdapterMyPost adapter;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -57,7 +57,7 @@ public class MyPostFragment extends Fragment {
                 for (DataSnapshot child : children) {
                     Person person = child.getValue(Person.class);
                     arrayList1.add(person);
-                    adapter = new MyCustomAdapter(getContext(), R.layout.custom, arrayList1);
+                    adapter = new CustomAdapterMyPost(getContext(), R.layout.custommypost, arrayList1);
                     lvitem.setAdapter(adapter);
                 }
             }

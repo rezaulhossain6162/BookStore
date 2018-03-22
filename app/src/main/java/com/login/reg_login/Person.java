@@ -5,12 +5,12 @@ package com.login.reg_login;
  */
 
 public class Person {
-    String name,bookName,key,uid;
+    String name,bookName,uri,uid;
 
-    public Person(String name, String bookName, String key, String uid) {
+    public Person(String name, String bookName, String uri, String uid) {
         this.name = name;
         this.bookName = bookName;
-        this.key = key;
+        this.uri = uri;
         this.uid = uid;
     }
 
@@ -30,12 +30,12 @@ public class Person {
           this.bookName=bookName;
     }
 
-    public String getKey() {
-        return key;
+    public String getUri() {
+        return uri;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKey(String uri) {
+        this.uri = uri;
     }
 
     public String getUid() {

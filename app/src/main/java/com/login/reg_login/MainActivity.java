@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +17,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public EditText etemail,etpassword;
-    TextView tvmessage;
-    Button btnreg,btnlongin;
+    public EditText etEamil,etPassword;
+    TextView tvToCreateNewAcc,tvError;
+    Button btnCreateAccount;
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -32,23 +31,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void ini() {
-        tvmessage= (TextView) findViewById(R.id.tvmessage);
-        etpassword= (EditText) findViewById(R.id.etpassword);
-        etemail= (EditText) findViewById(R.id.etemail);
-        btnreg= (Button) findViewById(R.id.btnreg);
-        btnlongin= (Button) findViewById(R.id.btnlogin);
-        btnreg.setOnClickListener(this);
-        btnlongin.setOnClickListener(this);
+        tvToCreateNewAcc= (TextView) findViewById(R.id.tvToCreateNewAcc);
+        tvError= (TextView) findViewById(R.id.tvError);
+        etEamil= (EditText) findViewById(R.id.etEmail);
+        etPassword= (EditText) findViewById(R.id.etPassword);
+        btnCreateAccount= (Button) findViewById(R.id.btnCreateAccount);
+        btnCreateAccount.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnlogin:
+            case R.id.btnLogin:
                 Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
                 break;
-            case R.id.btnreg:
+            case R.id.btnCreateAccount:
                 startRegistration();
                 break;
 
@@ -57,11 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startRegistration() {
-            String email = etemail.getText().toString();
-            String pass = etpassword.getText().toString();
+            String email = etEamil.getText().toString();
+            String pass = etPassword.getText().toString();
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
-                etemail.setError("Must be fill up");
-                etpassword.setError("Must be fill up");
+                etEamil.setError("Must be fill up");
+                etPassword.setError("Must be fill up");
             }else {
                 firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Toast.makeText(MainActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
                         } else {
                             String bad = task.getException().getMessage();
-                            tvmessage.setText(bad);
+                            tvError.setText(bad);
                         }
                     }
                 });

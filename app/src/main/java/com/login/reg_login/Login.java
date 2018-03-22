@@ -20,10 +20,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
-    public EditText etemailforlogin1,etpasswordforlogin1;
-    public Button btnforlogin1,btnsignup;
+    public EditText etEmail,etpassword;
+    public Button btnLogin;
     FirebaseAuth firebaseAuth;
-    TextView incorrect;
+    TextView tvForSign,tvForSignup,tvError;
     FirebaseAuth.AuthStateListener authStateListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,22 +63,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void ini() {
-        incorrect= (TextView) findViewById(R.id.incorrect);
-        etemailforlogin1= (EditText) findViewById(R.id.etemailforlogin);
-        etpasswordforlogin1= (EditText) findViewById(R.id.etpasswordforlogin);
-        btnforlogin1= (Button) findViewById(R.id.btnforlogin);
-        btnsignup= (Button) findViewById(R.id.btnsignup);
-        btnforlogin1.setOnClickListener(this);
-        btnsignup.setOnClickListener(this);
+        tvForSign= (TextView) findViewById(R.id.tvForSign);
+        etEmail= (EditText) findViewById(R.id.etEmail);
+        etpassword= (EditText) findViewById(R.id.etPassword);
+        btnLogin= (Button) findViewById(R.id.btnLogin);
+        tvForSignup= (TextView) findViewById(R.id.tvForSignup);
+        tvError= (TextView) findViewById(R.id.tvError);
+        tvForSignup.setOnClickListener(this);
+        btnLogin.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btnforlogin:
+            case R.id.btnLogin:
              startLogin();
                 break;
-            case R.id.btnsignup:
+            case R.id.tvForSignup:
                 Intent intent=new Intent(Login.this,MainActivity.class);
                 startActivity(intent);
                 break;
@@ -87,12 +88,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void startLogin() {
-        String email=etemailforlogin1.getText().toString().trim();
-        String password=etpasswordforlogin1.getText().toString().trim();
+        String email=etEmail.getText().toString().trim();
+        String password=etpassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)|| TextUtils.isEmpty(password)) {
-            etemailforlogin1.setError("Must be fill up");
-            etpasswordforlogin1.setError("Must be fill up");
+            etEmail.setError("Must be fill up");
+            etpassword.setError("Must be fill up");
         }else {
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
@@ -103,7 +104,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         startActivity(intent);
                     } else {
                         String mes = task.getException().getMessage();
-                        incorrect.setText(mes);
+                        tvError.setText(mes);
                     }
                 }
             });

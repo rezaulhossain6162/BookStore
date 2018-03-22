@@ -7,56 +7,91 @@
     tools:context="com.login.reg_login.PostAndAddFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <EditText
-        android:layout_width="299dp"
-        android:id="@+id/etBookName"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="70dp"
-        android:hint="Enter book Name"
-        android:layout_height="46dp" />
-    <EditText
-        android:id="@+id/etName"
-        android:layout_width="299dp"
-        android:layout_height="46dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:hint="Enter Writter Name: "
-         />
-<TextView
-    android:layout_width="wrap_content"
-    android:id="@+id/tvSelectBooks"
-    android:hint="Select your Book:"
-    android:layout_marginTop="20dp"
-    android:layout_marginLeft="25dp"
-    android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="90dp"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout2"
+            android:layout_width="313dp"
+            android:layout_height="54dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvToCreateNewAcc">
 
+            <EditText
+                android:id="@+id/etBookName"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Book Name" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout3"
+            android:layout_width="315dp"
+            android:layout_height="57dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+            <EditText
+                android:id="@+id/etname"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Writter Name"
+                android:layout_marginLeft="20dp"/>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginTop="10dp"
+    android:layout_height="wrap_content">
     <TextView
         android:id="@+id/tvPDF"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="25dp"
         android:text="Upload PDF:"
         android:textColor="@color/colorAccent" />
 
     <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="301dp"
+        android:id="@+id/btnChoose"
+        android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorPrimary"
-        android:text="Submit"
-        android:textColor="#FAFA" />
+        android:text="Choose" />
+
+
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_marginTop="40dp"
+    android:layout_height="wrap_content">
 
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="299dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="25dp"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
         android:background="@color/colorPrimary"
         android:text="Cancel"
         android:textColor="#FF0000" />
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/colorPrimary"
+        android:text="Upload"
+        android:textColor="#FAFA" />
+</LinearLayout>
+
+
 
 </LinearLayout>

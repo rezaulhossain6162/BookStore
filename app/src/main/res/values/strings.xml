@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Reg Login</string>
+    <string name="app_name">Book Store</string>
     <string name="title_activity_book__finder">Book_Finder</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

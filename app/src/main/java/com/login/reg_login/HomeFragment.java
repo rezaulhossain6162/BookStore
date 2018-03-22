@@ -1,4 +1,6 @@
 package com.login.reg_login;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,15 +23,19 @@ public class HomeFragment extends Fragment {
     ListView lvdata;
     ArrayList<Person> arrayList;
     MyCustomAdapter adapter;
+    View v;
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v= inflater.inflate(R.layout.fragment_home, container, false);
+         v= inflater.inflate(R.layout.fragment_home, container, false);
           lvdata=v.findViewById(R.id.lvdata);
           arrayList=new ArrayList<>();
-
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Loading...");
+        progressDialog.show();
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Add_Information");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -40,6 +46,7 @@ public class HomeFragment extends Fragment {
                     arrayList.add(person);
                     adapter=new MyCustomAdapter(getContext(),R.layout.custom,arrayList);
                     lvdata.setAdapter(adapter);
+                    progressDialog.dismiss();
                 }
             }
             @Override
