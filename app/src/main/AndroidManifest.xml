@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".Book_Finder"
             android:label="@string/title_activity_book__finder"
@@ -35,8 +36,9 @@
             android:name=".About"
             android:label="About"
             android:parentActivityName=".Book_Finder" />
-        <activity android:name=".PdfView"></activity>
-        <activity android:name=".Download"></activity>
+        <activity android:name=".Download" />
+        <activity android:name=".ResetPassword"
+            android:parentActivityName=".Login"></activity>
     </application>
 
 </manifest>

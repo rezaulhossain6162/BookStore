@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     public EditText etEmail,etpassword;
-    public Button btnLogin;
+    public Button btnLogin,resetPassword;
     FirebaseAuth firebaseAuth;
     TextView tvForSign,tvForSignup,tvError;
     FirebaseAuth.AuthStateListener authStateListener;
@@ -63,6 +63,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void ini() {
+        resetPassword= (Button) findViewById(R.id.resetPassword);
         tvForSign= (TextView) findViewById(R.id.tvForSign);
         etEmail= (EditText) findViewById(R.id.etEmail);
         etpassword= (EditText) findViewById(R.id.etPassword);
@@ -70,12 +71,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         tvForSignup= (TextView) findViewById(R.id.tvForSignup);
         tvError= (TextView) findViewById(R.id.tvError);
         tvForSignup.setOnClickListener(this);
+        resetPassword.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.resetPassword:
+                Intent intent1=new Intent(this,ResetPassword.class);
+                startActivity(intent1);
+                break;
             case R.id.btnLogin:
              startLogin();
                 break;
@@ -90,7 +96,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void startLogin() {
         String email=etEmail.getText().toString().trim();
         String password=etpassword.getText().toString().trim();
-
         if (TextUtils.isEmpty(email)|| TextUtils.isEmpty(password)) {
             etEmail.setError("Must be fill up");
             etpassword.setError("Must be fill up");

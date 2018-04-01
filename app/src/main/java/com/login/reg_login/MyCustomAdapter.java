@@ -1,7 +1,9 @@
 package com.login.reg_login;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,9 +23,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Created by jack on 9/24/2017.
- */
 
 public class MyCustomAdapter extends BaseAdapter implements Filterable {
     private Context mcontext;
@@ -34,12 +33,10 @@ public class MyCustomAdapter extends BaseAdapter implements Filterable {
         this.mcontext=context;
         this.dataOrginal=object;
         this.dataTemp=object;
-
     }
-
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View mconvertview=convertView;
         if (mconvertview==null){
            LayoutInflater inflater= (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,7 +52,7 @@ public class MyCustomAdapter extends BaseAdapter implements Filterable {
             @Override
 
             public void onClick(View view) {
-                String uri = person.getUri();
+                String uri = dataOrginal.get(position).getUri();
                 Intent myintent=new Intent(Intent.ACTION_SEND);
                 myintent.setType("text/plain");
                 String sharebody=""+uri;
@@ -69,7 +66,8 @@ public class MyCustomAdapter extends BaseAdapter implements Filterable {
             @Override
             public void onClick(View view) {
                 Intent intentd = new Intent(mcontext,Download.class);
-                intentd.putExtra("pdflink",person.getUri());
+
+                intentd.putExtra("pdflink",dataOrginal.get(position).getUri());
                 mcontext.startActivity(intentd);
             }
         });
@@ -77,7 +75,7 @@ public class MyCustomAdapter extends BaseAdapter implements Filterable {
 
             @Override
             public void onClick(View v) {
-                putUrl();
+                putUrl(dataOrginal.get(position).getUri());
 
             }
         });
@@ -88,14 +86,24 @@ public class MyCustomAdapter extends BaseAdapter implements Filterable {
         //ImageView ivbook=mconvertview.findViewById(R.id.ivbook);
         tvdisplayname.setText(""+person.getName());
         tvdsplayad.setText(""+person.getBookName());
+        Log.e("pdffileview",person.getUri());
        // ivbook.setImageResource(R.drawable.book_image);
         return mconvertview;
     }
 
-    private void putUrl() {
-        Intent intentd = new Intent(mcontext,PdfView.class);
-        intentd.putExtra("pdflink",person.getUri());
-        mcontext.startActivity(intentd);
+    private void putUrl(String urls) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(urls), "application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent newIntent = Intent.createChooser(intent, "Open File");
+        try {
+            mcontext.startActivity(newIntent);
+        } catch (ActivityNotFoundException e) {
+            // Instruct the user to install a PDF reader here, or something
+        }
+//        Intent intentd = new Intent(mcontext,PdfView.class);
+//        intentd.putExtra("pdflink",person.getUri());
+//        mcontext.startActivity(intentd);
     }
 
 
@@ -134,7 +142,6 @@ public class MyCustomAdapter extends BaseAdapter implements Filterable {
                     if (dataTemp.get(i).getBookName().toUpperCase().contains(charSequence)) {
                         Person person = new Person(dataTemp.get(i).getName(), dataTemp.get(i).getBookName(), dataTemp.get(i).getUri(), dataTemp.get(i).getUid());
                         datachange.add(person);
-
                     }
                 }results.count=datachange.size();
                 results.values=datachange;

@@ -28,7 +28,6 @@ public class MyPostFragment extends Fragment {
     ArrayList<Person> arrayList1;
     CustomAdapterMyPost adapter;
     FirebaseAuth firebaseAuth;
-    FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     ListView lvitem;
 
@@ -47,7 +46,6 @@ public class MyPostFragment extends Fragment {
          firebaseAuth = FirebaseAuth.getInstance();
          FirebaseUser currentUser = firebaseAuth.getCurrentUser();
          String uid = currentUser.getUid();
-         firebaseDatabase.getInstance();
          databaseReference = FirebaseDatabase.getInstance().getReference();
         Query query = databaseReference.child("Add_Information").orderByChild("uid").equalTo(uid);
         query.addListenerForSingleValueEvent(new ValueEventListener() {

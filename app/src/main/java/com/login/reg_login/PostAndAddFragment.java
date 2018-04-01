@@ -58,8 +58,8 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
                              Bundle savedInstanceState) {
 
          View v=inflater.inflate(R.layout.fragment_post_and_add, container, false);
-        etname=v.findViewById(R.id.etname);
         storageReference= FirebaseStorage.getInstance().getReference();
+        etname=v.findViewById(R.id.etname);
         etBookName=v.findViewById(R.id.etBookName);
         btnsubmit=v.findViewById(R.id.btnSubmit);
         btncancel=v.findViewById(R.id.btnCancel);
@@ -90,7 +90,7 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(getContext(), "Select pdf", Toast.LENGTH_SHORT).show();
                 }else {
                     final ProgressDialog dialog=new ProgressDialog(getContext());
-                    dialog.setTitle("Uploading Image");
+                    dialog.setTitle("Uploading Pdf");
                     dialog.show();
                     StorageReference reference=storageReference.child(FB_STORAGE_PATH + System.currentTimeMillis()+"."+getImageExt(imageuri));
                     reference.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

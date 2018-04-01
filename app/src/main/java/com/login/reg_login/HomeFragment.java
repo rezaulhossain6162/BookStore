@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +48,14 @@ public class HomeFragment extends Fragment {
                     arrayList.add(person);
                     adapter=new MyCustomAdapter(getContext(),R.layout.custom,arrayList);
                     lvdata.setAdapter(adapter);
+                    lvdata.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            // the position of the item clicked will come in as the 3rd parameter of the onItemClick callback
+                            // which is 'position'. You can use the value to do whatever you want
+                            Toast.makeText(getActivity(), "positon: "+position, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     progressDialog.dismiss();
                 }
             }
@@ -54,6 +64,8 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+
         return v;
     }
 }

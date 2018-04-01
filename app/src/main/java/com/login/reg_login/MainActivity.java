@@ -42,10 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnLogin:
-                Intent intent = new Intent(MainActivity.this, Login.class);
-                startActivity(intent);
-                break;
             case R.id.btnCreateAccount:
                 startRegistration();
                 break;
@@ -55,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startRegistration() {
-            String email = etEamil.getText().toString();
-            String pass = etPassword.getText().toString();
+            String email = etEamil.getText().toString().trim();
+            String pass = etPassword.getText().toString().trim();
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass)) {
                 etEamil.setError("Must be fill up");
                 etPassword.setError("Must be fill up");

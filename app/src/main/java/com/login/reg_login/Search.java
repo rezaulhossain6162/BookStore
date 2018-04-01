@@ -26,11 +26,8 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-         arrayLists=new ArrayList<>();
-
-        listView= (ListView) findViewById(R.id.listviewCountry);
-
-
+        arrayLists=new ArrayList<>();
+        listView= (ListView)findViewById(R.id.listviewCountry);
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Add_Information");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
