@@ -35,11 +35,9 @@ public class CustomAdapterMyPost extends BaseAdapter {
      Context mcontext;
     public ArrayList<Person> dataOrginal,dataTemp;
     Person person;
-    String uri;
     customfilter cs;
     String bookName;
     DatabaseReference databaseReference;
-    String uid;
     public CustomAdapterMyPost(Context context, @LayoutRes int resource, ArrayList<Person> object) {
         this.mcontext=context;
         this.dataOrginal=object;
