@@ -37,7 +37,6 @@ public class CustomAdapterMyPost extends BaseAdapter {
     Person person;
     String uri;
     customfilter cs;
-    FirebaseAuth firebaseAuth;
     String bookName;
     DatabaseReference databaseReference;
     String uid;
