@@ -1,78 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/border"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        android:layout_height="122dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:layout_height="120dp">
+            <TextView
+                android:id="@+id/tvNameB"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Book Name   :"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvNameB"
-        android:layout_width="85dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:text="Book Name  :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tvWritterNameB"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:text="Writter name:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvNameB" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="4"
+            android:layout_height="120dp">
+            <TextView
+                android:id="@+id/tvViewBname"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toEndOf="@+id/tvNameB"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvWritterNameB"
-        android:layout_width="85dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:text="Writter name:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNameB" />
+            <TextView
+                android:id="@+id/tvViewWName"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/tvWritterNameB"
+                app:layout_constraintTop_toBottomOf="@+id/tvViewBname" />
 
+        </LinearLayout>
 
-    <View
-        android:id="@+id/viewline"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/black"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWritterNameB">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:weightSum="1">
 
-    </View>
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/delete"
+                android:textSize="10sp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvViewBname"
-        android:layout_width="200dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/tvNameB"
-        app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvViewWName"
-        android:layout_width="200dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/tvWritterNameB"
-        app:layout_constraintTop_toBottomOf="@+id/tvViewBname" />
-
-    <Button
-        android:id="@+id/btnDelete"
-        android:layout_width="69dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="27dp"
-        android:background="@drawable/delete"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvViewWName"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

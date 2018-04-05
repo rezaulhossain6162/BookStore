@@ -107,6 +107,8 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
                             Toast.makeText(getContext(), "upload completed", Toast.LENGTH_SHORT).show();
                             etBookName.getText().clear();
                             etname.getText().clear();
+                            imageuri=null;
+                            btnChoose.setText("Choose");
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -137,6 +139,7 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==REQUEST_CODE && resultCode==RESULT_OK && data!=null && data.getData()!= null){
             imageuri=data.getData();
+            btnChoose.setText("pdf Choosed");
             Toast.makeText(this.getContext(), "Choosed", Toast.LENGTH_SHORT).show();
         }
     }

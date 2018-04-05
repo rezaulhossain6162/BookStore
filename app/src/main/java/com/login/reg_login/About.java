@@ -41,7 +41,7 @@ public class About extends AppCompatActivity {
     private mehdi.sakout.aboutpage.Element createCopyright() {
         mehdi.sakout.aboutpage.Element element=new mehdi.sakout.aboutpage.Element();
         final String copystring=String.format("copyright by @ Rezaul Hossain/karim", Calendar.getInstance().get(Calendar.YEAR));
-         element.setTitle(copystring);
+        element.setTitle(copystring);
         element.setGravity(Gravity.CENTER);
         element.setOnClickListener(new View.OnClickListener() {
             @Override

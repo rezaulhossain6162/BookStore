@@ -57,12 +57,12 @@
         android:layout_marginRight="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload PDF:"
+        android:text="Choose PDF:"
         android:textColor="@color/colorAccent" />
 
     <Button
         android:id="@+id/btnChoose"
-        android:layout_width="100dp"
+        android:layout_width="130dp"
         android:layout_height="50dp"
         android:text="Choose" />
 
