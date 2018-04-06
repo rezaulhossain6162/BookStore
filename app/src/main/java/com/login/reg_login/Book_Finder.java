@@ -1,6 +1,7 @@
 package com.login.reg_login;
 
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -64,28 +65,30 @@ public class Book_Finder extends AppCompatActivity
     }
 
     private void newtwork() {
-        ConnectivityManager cm= (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo Ninfo = cm.getActiveNetworkInfo();
-        if (Ninfo != null && Ninfo.isConnected()){
-            Fragment fragment=new HomeFragment();
-            FragmentManager fm=getSupportFragmentManager();
-            FragmentTransaction ft=fm.beginTransaction();
-            ft.replace(R.id.loadfagment,fragment);
-            ft.commit();
-        }else {
-            AlertDialog.Builder builder1=new AlertDialog.Builder(getApplicationContext());
-            builder1.setTitle("No Internet Connection");
-            builder1.setMessage("You need to open your mobile data or wifi");
-            builder1.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
+        ConnectivityManager cm= (ConnectivityManager) getSystemService(Service.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo Ninfo = cm.getActiveNetworkInfo();
+            if (Ninfo != null) {
+                if (Ninfo.getState() == NetworkInfo.State.CONNECTED) {
+                    Fragment fragment = new HomeFragment();
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.loadfagment, fragment);
+                    ft.commit();
                 }
-            });
-
+            }else {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                builder.setMessage("Internet Not Connected");
+                android.app.AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
         }
-
-
+        else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder.setMessage("Interner Not Connected");
+            android.app.AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 
 

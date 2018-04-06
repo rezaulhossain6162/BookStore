@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ResetPassword extends AppCompatActivity implements View.OnClickListener {
     EditText etEmailR;
     Button btnSend;
+    String email;
     FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,18 @@ public class ResetPassword extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnSend:
-                final String email = etEmailR.getText().toString().trim();
-                firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(ResetPassword.this, "Success Sending email", Toast.LENGTH_SHORT).show();
-                        etEmailR.getText().clear();
-                    }
-                });
+                  email = etEmailR.getText().toString().trim();
+                if (email.isEmpty()){
+                    etEmailR.setError("Must be fill up");
+                }else {
+                    firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(ResetPassword.this, "Success Sending email", Toast.LENGTH_SHORT).show();
+                            etEmailR.getText().clear();
+                        }
+                    });
+                }
                 break;
         }
     }

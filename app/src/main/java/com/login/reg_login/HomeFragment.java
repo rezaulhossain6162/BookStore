@@ -1,8 +1,13 @@
 package com.login.reg_login;
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,40 +37,62 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-         v= inflater.inflate(R.layout.fragment_home, container, false);
-          lvdata=v.findViewById(R.id.lvdata);
-          arrayList=new ArrayList<>();
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading...");
-        progressDialog.show();
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Add_Information");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                for (DataSnapshot child:children){
-                    Person person=child.getValue(Person.class);
-                    arrayList.add(person);
-                    adapter=new MyCustomAdapter(getContext(),R.layout.custom,arrayList);
-                    lvdata.setAdapter(adapter);
-                    lvdata.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        v= inflater.inflate(R.layout.fragment_home, container, false);
+        lvdata=v.findViewById(R.id.lvdata);
+        arrayList=new ArrayList<>();
+        newtwork();
+        return v;
+    }
+
+    private void newtwork() {
+        ConnectivityManager cm= (ConnectivityManager) getContext().getSystemService(Service.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo Ninfo = cm.getActiveNetworkInfo();
+            if (Ninfo != null) {
+                if (Ninfo.getState() == NetworkInfo.State.CONNECTED) {
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setTitle("Loading...");
+                    progressDialog.show();
+                    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Add_Information");
+                    databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            // the position of the item clicked will come in as the 3rd parameter of the onItemClick callback
-                            // which is 'position'. You can use the value to do whatever you want
-                            Toast.makeText(getActivity(), "positon: "+position, Toast.LENGTH_SHORT).show();
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                            for (DataSnapshot child:children){
+                                Person person=child.getValue(Person.class);
+                                arrayList.add(person);
+                                adapter=new MyCustomAdapter(getContext(),R.layout.custom,arrayList);
+                                lvdata.setAdapter(adapter);
+                                lvdata.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        // the position of the item clicked will come in as the 3rd parameter of the onItemClick callback
+                                        // which is 'position'. You can use the value to do whatever you want
+                                        Toast.makeText(getActivity(), "positon: "+position, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                progressDialog.dismiss();
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
                         }
                     });
-                    progressDialog.dismiss();
                 }
+            }else {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                builder.setMessage("Internet Not Connected");
+                android.app.AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        return v;
+        }
+        else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+            builder.setMessage("Internet Not Connected");
+            android.app.AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 }

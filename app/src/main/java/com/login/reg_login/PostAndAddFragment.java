@@ -1,7 +1,10 @@
 package com.login.reg_login;
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -82,48 +85,7 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
 
                 break;
             case R.id.btnSubmit:
-                final String bookName = etBookName.getText().toString();
-                final String name=etname.getText().toString();
-                if (name.isEmpty() || bookName.isEmpty() || imageuri==null){
-                    etname.setError("must be fill up");
-                    etBookName.setError("must be fill up");
-                    Toast.makeText(getContext(), "Select pdf", Toast.LENGTH_SHORT).show();
-                }else {
-                    final ProgressDialog dialog=new ProgressDialog(getContext());
-                    dialog.setTitle("Uploading Pdf");
-                    dialog.show();
-                    StorageReference reference=storageReference.child(FB_STORAGE_PATH + System.currentTimeMillis()+"."+getImageExt(imageuri));
-                    reference.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            dialog.dismiss();
-                            uri=taskSnapshot.getDownloadUrl().toString();
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Add_Information");
-                            firebaseAuth = FirebaseAuth.getInstance();
-                            currentUser = firebaseAuth.getCurrentUser();
-                            String uid = currentUser.getUid();
-                            Person person = new Person(name, bookName,uri,uid);
-                            databaseReference.push().setValue(person);
-                            Toast.makeText(getContext(), "upload completed", Toast.LENGTH_SHORT).show();
-                            etBookName.getText().clear();
-                            etname.getText().clear();
-                            imageuri=null;
-                            btnChoose.setText("Choose");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            dialog.dismiss();
-                            Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress=(100* taskSnapshot.getBytesTransferred())/taskSnapshot.getTotalByteCount();
-                            dialog.setMessage("Please Wait..."+(int)progress+"%");
-                        }
-                    });
-                }
+                newtwork();
                 break;
             case R.id.btnCancel:
                 FragmentManager fragmentManager = getFragmentManager();
@@ -147,5 +109,68 @@ public class PostAndAddFragment extends Fragment implements View.OnClickListener
         ContentResolver resolver = getActivity().getContentResolver();
         MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(resolver.getType(uri));
+    }
+    private void newtwork() {
+        ConnectivityManager cm= (ConnectivityManager) getContext().getSystemService(Service.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo Ninfo = cm.getActiveNetworkInfo();
+            if (Ninfo != null) {
+                if (Ninfo.getState() == NetworkInfo.State.CONNECTED) {
+                    final String bookName = etBookName.getText().toString();
+                    final String name=etname.getText().toString();
+                    if (name.isEmpty() || bookName.isEmpty() || imageuri==null){
+                        etname.setError("must be fill up");
+                        etBookName.setError("must be fill up");
+                        Toast.makeText(getContext(), "Select pdf", Toast.LENGTH_SHORT).show();
+                    }else {
+                        final ProgressDialog dialog=new ProgressDialog(getContext());
+                        dialog.setTitle("Uploading Pdf");
+                        dialog.show();
+                        StorageReference reference=storageReference.child(FB_STORAGE_PATH + System.currentTimeMillis()+"."+getImageExt(imageuri));
+                        reference.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                dialog.dismiss();
+                                uri=taskSnapshot.getDownloadUrl().toString();
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Add_Information");
+                                firebaseAuth = FirebaseAuth.getInstance();
+                                currentUser = firebaseAuth.getCurrentUser();
+                                String uid = currentUser.getUid();
+                                Person person = new Person(name, bookName,uri,uid);
+                                databaseReference.push().setValue(person);
+                                Toast.makeText(getContext(), "upload completed", Toast.LENGTH_SHORT).show();
+                                etBookName.getText().clear();
+                                etname.getText().clear();
+                                imageuri=null;
+                                btnChoose.setText("Choose");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                dialog.dismiss();
+                                Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress=(100* taskSnapshot.getBytesTransferred())/taskSnapshot.getTotalByteCount();
+                                dialog.setMessage("Please Wait..."+(int)progress+"%");
+                            }
+                        });
+                    }
+                }
+            }else {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                builder.setMessage("Internet Not Connect");
+                android.app.AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        }
+        else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+            builder.setMessage("Interner Not Connect");
+            android.app.AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 }
